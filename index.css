@@ -136,6 +136,11 @@ body {
     transition:0.4s ease-in-out;
     border-radius:100px 100px 0px 0px;
 }
+#innerbox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 #experience {
     width:10vw;
     height:10vw;
