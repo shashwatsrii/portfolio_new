@@ -181,19 +181,19 @@ body {
     border-radius:0px 0px 100px 100px;
 }
 #about:hover {
-    background:rgba(255,50,50,0.9);
+    background:#831010b6;
     cursor:pointer;
 }
 #work:hover {
-    background:rgba(255,50,50,0.9);
+    background:#831010b6;
     cursor:pointer;
 }
 #contact:hover {
-    background:rgba(255,50,50,0.9);
+    background:#831010b6;
     cursor:pointer;
 }
 #experience:hover {
-    background:rgba(255,50,50,0.9);
+    background:#831010b6;
     cursor:pointer;
 }
 #middle table {
@@ -410,4 +410,19 @@ body {
     #box div {
         width:100%;
     }
+}
+.buttondiv{
+    padding: 2vw;
+}
+.bn5{
+    background-color: #831010;
+    padding: 1vw;
+    border-radius: 10px;
+    border-color: white;
+    color: white;;
+    text-decoration: none;
+}
+.bn5:hover{
+    background-color: white;
+    color: #831010;
 }
