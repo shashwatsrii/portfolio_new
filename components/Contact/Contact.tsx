@@ -1,11 +1,22 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useForm, ValidationError } from '@formspree/react'
 import { personalInfo } from '@/utils/data'
 
 export default function Contact() {
   const [state, handleSubmit] = useForm(process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID || 'manbjbja')
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   return (
     <section id="contact" className="section-padding fade-in-section bg-[#faf9f7] dark:bg-[#ede7e0]">
@@ -13,8 +24,8 @@ export default function Contact() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          viewport={{ once: false, amount: 0.3 }}
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4">
@@ -30,8 +41,8 @@ export default function Contact() {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            viewport={{ once: false, amount: 0.2 }}
           >
             {state.succeeded ? (
               <motion.div
@@ -58,7 +69,7 @@ export default function Contact() {
                     Your Name
                   </label>
                   <motion.input
-                    whileFocus={{ scale: 1.02 }}
+                    whileFocus={{ scale: !isMobile ? 1.02 : 1 }}
                     type="text"
                     id="name"
                     name="name"
@@ -79,7 +90,7 @@ export default function Contact() {
                     Email Address
                   </label>
                   <motion.input
-                    whileFocus={{ scale: 1.02 }}
+                    whileFocus={{ scale: !isMobile ? 1.02 : 1 }}
                     type="email"
                     id="email"
                     name="email"
@@ -100,7 +111,7 @@ export default function Contact() {
                     Message
                   </label>
                   <motion.textarea
-                    whileFocus={{ scale: 1.02 }}
+                    whileFocus={{ scale: !isMobile ? 1.02 : 1 }}
                     id="message"
                     name="message"
                     required
@@ -138,8 +149,8 @@ export default function Contact() {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            viewport={{ once: false, amount: 0.2 }}
             className="space-y-8"
           >
             <div>

@@ -137,7 +137,7 @@ export default function Hero() {
 
         <motion.p 
           variants={itemVariants}
-          className="text-base md:text-lg lg:text-xl text-gray-600 dark:text-[#6a6a6a] max-w-4xl mx-auto mb-12 whitespace-nowrap"
+          className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-[#6a6a6a] max-w-4xl mx-auto mb-12 px-4 sm:px-0"
         >
           {personalInfo.tagline}
         </motion.p>
@@ -209,7 +209,7 @@ export default function Hero() {
 
       {/* Scroll Indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 hidden md:block"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2 }}

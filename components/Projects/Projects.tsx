@@ -1,12 +1,22 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { projects } from '@/utils/data'
 
 function ProjectCard({ project }: { project: typeof projects[0] }) {
   const ref = useRef<HTMLDivElement>(null)
   const [isExpanded, setIsExpanded] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const x = useMotionValue(0)
   const y = useMotionValue(0)
@@ -18,7 +28,8 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-17.5deg", "17.5deg"])
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return
+    // Disable 3D effects on mobile for better performance
+    if (isMobile || !ref.current) return
 
     const rect = ref.current.getBoundingClientRect()
     const width = rect.width
@@ -46,13 +57,13 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
       style={{
         transformStyle: "preserve-3d",
         transform: "perspective(1000px)",
-        rotateX,
-        rotateY,
+        rotateX: !isMobile ? rotateX : 0,
+        rotateY: !isMobile ? rotateY : 0,
       }}
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      viewport={{ once: true }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      viewport={{ once: false, amount: 0.1 }}
       className="relative group"
     >
       <div className="relative h-full bg-[#faf9f7] dark:bg-[#f0ebe6] rounded-xl shadow-lg overflow-hidden transform-gpu transition-all duration-300 hover:shadow-2xl">
@@ -183,8 +194,8 @@ export default function Projects() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          viewport={{ once: false, amount: 0.3 }}
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4">
@@ -205,8 +216,8 @@ export default function Projects() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
+          viewport={{ once: false, amount: 0.5 }}
           className="text-center mt-12"
         >
           <a

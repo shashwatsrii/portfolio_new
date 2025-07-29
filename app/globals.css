@@ -92,4 +92,9 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  /* Improve animation performance */
+  .fade-in-section {
+    will-change: transform, opacity;
+  }
 }

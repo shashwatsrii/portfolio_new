@@ -16,18 +16,24 @@ gsap.registerPlugin(ScrollTrigger)
 export default function Home() {
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Reduce animation complexity on mobile for better performance
+      const isMobile = window.innerWidth < 768
+      
       gsap.utils.toArray('.fade-in-section').forEach((section: any) => {
         gsap.fromTo(section, 
-          { opacity: 0, y: 50 },
+          { opacity: 0, y: isMobile ? 20 : 30 },
           {
             opacity: 1,
             y: 0,
-            duration: 1,
+            duration: isMobile ? 0.3 : 0.6,
+            ease: "power2.out",
             scrollTrigger: {
               trigger: section,
-              start: 'top 80%',
-              end: 'bottom 20%',
-              toggleActions: 'play none none reverse'
+              start: 'top 90%',
+              end: 'top 20%',
+              toggleActions: 'play none none reset',
+              once: false,
+              invalidateOnRefresh: true
             }
           }
         )
