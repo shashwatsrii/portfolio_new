@@ -5,12 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 
 const navItems = [
-  { name: 'Home', href: '/#home' },
-  { name: 'About', href: '/#about' },
-  { name: 'Skills', href: '/#skills' },
-  { name: 'Experience', href: '/#experience' },
-  { name: 'Projects', href: '/#projects' },
-  { name: 'Contact', href: '/#contact' },
+  { name: 'Home', href: '#home' },
+  { name: 'About', href: '#about' },
+  { name: 'Skills', href: '#skills' },
+  { name: 'Experience', href: '#experience' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'Contact', href: '#contact' },
 ]
 
 export default function Navigation() {
@@ -43,13 +43,24 @@ export default function Navigation() {
   }, [])
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.includes('#') && pathname === '/') {
+    if (href.startsWith('#')) {
       e.preventDefault()
-      const hash = href.split('#')[1]
-      const element = document.getElementById(hash)
-      element?.scrollIntoView({ behavior: 'smooth' })
+      const targetId = href.substring(1)
+      const element = document.getElementById(targetId)
+      
+      // Close mobile menu first
+      setIsMobileMenuOpen(false)
+      
+      // Small delay to ensure menu animation doesn't interfere with scrolling
+      setTimeout(() => {
+        if (element) {
+          element.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          })
+        }
+      }, 100)
     }
-    setIsMobileMenuOpen(false)
   }
 
   return (
@@ -66,8 +77,7 @@ export default function Navigation() {
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
                 className={`relative font-medium transition-colors ${
-                  (item.href === '/gallery' && pathname === '/gallery') ||
-                  (item.href.includes('#') && pathname === '/' && activeSection === item.href.split('#')[1])
+                  item.href.startsWith('#') && activeSection === item.href.substring(1)
                     ? 'text-primary'
                     : 'text-gray-600 hover:text-gray-900 dark:text-[#5a5a5a] dark:hover:text-white'
                 }`}
@@ -75,8 +85,7 @@ export default function Navigation() {
                 whileTap={{ y: 0 }}
               >
                 {item.name}
-                {((item.href === '/gallery' && pathname === '/gallery') ||
-                  (item.href.includes('#') && pathname === '/' && activeSection === item.href.split('#')[1])) && (
+                {(item.href.startsWith('#') && activeSection === item.href.substring(1)) && (
                   <motion.div
                     className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
                     layoutId="activeSection"
@@ -125,8 +134,7 @@ export default function Navigation() {
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`block py-2 px-4 rounded-lg transition-colors ${
-                    (item.href === '/gallery' && pathname === '/gallery') ||
-                    (item.href.includes('#') && pathname === '/' && activeSection === item.href.split('#')[1])
+                    item.href.startsWith('#') && activeSection === item.href.substring(1)
                       ? 'bg-primary text-white'
                       : 'text-gray-600 hover:bg-[#f0ebe6] dark:text-[#5a5a5a] dark:hover:bg-[#ddd7d0]'
                   }`}
